@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell } from 'recharts';
-import { Link } from 'react-router-dom';
+import Sidebar from "../Components/Sidebar";
+import BottomBar from '../Components/BottomBar';
 
 const data = [
     { name: 'Candidate A', votes: 250, color: '#324265' },
@@ -18,52 +19,49 @@ const pieData = [
 
 function VotingStatistics() {
     const [isBarChart, setIsBarChart] = useState(true);
+    const [isSidebarExpanded, setIsSidebarExpanded] = useState(window.innerWidth > 768);
+
+    // Handle Sidebar Toggle
+    const handleSidebarToggle = (expanded) => {
+        setIsSidebarExpanded(expanded);
+    };
+
+    // Adjust layout on screen resize
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSidebarExpanded(window.innerWidth > 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     return (
-        <div className="flex h-screen bg-gray-100">
+        <div className="bg-gray-100">
             {/* Sidebar */}
-            <div className="w-1/5 bg-black text-white flex flex-col">
-                <div className="p-6">
-                    <h1 className="text-lg font-bold">Department</h1>
-                </div>
-                <div className="p-6">
-                    <h2 className="text-xl font-bold">John Doe</h2>
-                    <div className="flex items-center mt-4">
-                        <div className="w-10 h-10 bg-gray-600 rounded-full"></div>
-                        <span className="ml-4">John Doe</span>
-                    </div>
-                </div>
-                <nav className="flex-grow mt-6">
-                    <ul>
-                        <li className="py-2 px-6 bg-gray-800">Election</li>
-                        <Link to={'/Voters'} className="py-2 px-6 hover:bg-gray-700">Voters</Link>
-                        <li className="py-2 px-6 hover:bg-gray-700">Candidates</li>
-                    </ul>
-                </nav>
-                <div className="p-6">
-                    <button className="w-full text-left">Log out</button>
-                </div>
+            <div className={`fixed left-0 top-0 h-full transition-all duration-300 z-50 ${isSidebarExpanded ? "w-100" : "w-0 overflow-hidden"}`}>
+                <Sidebar />
             </div>
 
             {/* Main Content */}
-            <div className="w-4/5 p-10 bg-white bg-opacity-90">
-                <h2 className="text-2xl font-bold text-black">Voting Statistics</h2>
+            <div className={`flex-1 transition-all duration-300 p-4 md:p-10 bg-gray-100 ${isSidebarExpanded ? "ml-64" : "ml-10"}`}>
+                <h2 className="text-2xl font-bold text-black text-center md:text-left">Voting Statistics</h2>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-3 gap-6 mt-8">
-                    <div className="p-6 bg-gray-100 bg-opacity-90 rounded shadow-md text-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                    <div className="p-4 md:p-6 bg-white rounded shadow-md text-center">
                         <h3 className="text-lg font-bold text-black">Total Votes</h3>
-                        <p className="text-4xl font-bold mt-4 text-black">600</p>
+                        <p className="text-3xl md:text-4xl font-bold mt-4 text-black">600</p>
                         <span className="text-green-500">+12%</span>
                     </div>
-                    <div className="p-6 bg-gray-100 bg-opacity-90 rounded shadow-md text-center">
+                    <div className="p-4 md:p-6 bg-white rounded shadow-md text-center">
                         <h3 className="text-lg font-bold text-black">Candidate A Votes</h3>
-                        <p className="text-4xl font-bold mt-4 text-black">250</p>
+                        <p className="text-3xl md:text-4xl font-bold mt-4 text-black">250</p>
                         <span className="text-green-500">+5%</span>
                     </div>
-                    <div className="p-6 bg-gray-100 bg-opacity-90 rounded shadow-md text-center">
+                    <div className="p-4 md:p-6 bg-white rounded shadow-md text-center">
                         <h3 className="text-lg font-bold text-black">Candidate B Votes</h3>
-                        <p className="text-4xl font-bold mt-4 text-black">200</p>
+                        <p className="text-3xl md:text-4xl font-bold mt-4 text-black">200</p>
                         <span className="text-green-500">+3%</span>
                     </div>
                 </div>
@@ -79,11 +77,11 @@ function VotingStatistics() {
                 </div>
 
                 {/* Voting Trends Chart */}
-                <div className="mt-12 bg-gray-100 bg-opacity-90 p-6 rounded shadow-md relative">
-                    <h3 className="text-lg font-bold text-black">Voting Trends</h3>
+                <div className="mt-12 bg-white p-4 md:p-6 rounded shadow-md">
+                    <h3 className="text-lg font-bold text-black text-center">Voting Trends</h3>
                     <div className="flex justify-center items-center mt-8">
                         {isBarChart ? (
-                            <BarChart width={500} height={300} data={data}>
+                            <BarChart width={window.innerWidth < 768 ? 300 : 500} height={300} data={data}>
                                 <CartesianGrid strokeDasharray="3 3"/>
                                 <XAxis dataKey="name"/>
                                 <YAxis/>
@@ -95,14 +93,14 @@ function VotingStatistics() {
                                 </Bar>
                             </BarChart>
                         ) : (
-                            <PieChart width={500} height={500}>
+                            <PieChart width={window.innerWidth < 768 ? 300 : 500} height={window.innerWidth < 768 ? 300 : 500}>
                                 <Pie
                                     data={pieData}
                                     dataKey="value"
                                     nameKey="name"
                                     cx="50%"
                                     cy="50%"
-                                    outerRadius={250}
+                                    outerRadius={window.innerWidth < 768 ? 100 : 250}
                                     fill="#8884d8"
                                 >
                                     {pieData.map((entry, index) => (
@@ -110,19 +108,14 @@ function VotingStatistics() {
                                     ))}
                                 </Pie>
                             </PieChart>
+                            
                         )}
+                        
                     </div>
-                    <div className="absolute bottom-4 left-4 flex flex-col space-y-2">
-                        {data.map((entry, index) => (
-                            <div
-                                key={index}
-                                className="w-4 h-4 rounded-full"
-                                style={{backgroundColor: entry.color}}
-                            ></div>
-                        ))}
-                    </div>
+                    
                 </div>
             </div>
+            <BottomBar/>
         </div>
     );
 }

@@ -1,78 +1,100 @@
-import { AlignJustify,LogOut,UserRound ,Settings} from "lucide-react"
-import { useState } from "react"
+import { AlignJustify, LogOut, Settings } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function Sidebar(){
+function Sidebar() {
+  const [isExpanded, setIsExpanded] = useState(window.innerWidth > 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-    const [display,isDisplay] = useState(true);
-    
-    const handleclick = () =>{
-        isDisplay(!display)
-        console.log(!display)
+  const toggleSidebar = () => {
+    setIsExpanded(!isExpanded);
+  };
 
-    }
-    if(display){
-        return(
-       
-            <div className="h-full fixed z-10  bg-black border-white"> 
-                    {/* Side bar */}
-                    {/* make changes here 'md:w-40 hidden md:block'*/}
-                <div className="inline-flex mt-10 ml-3">
-                    <h1 className="text-white">Department</h1>
-                    <AlignJustify onClick={handleclick} className="text-white ml-4 cursor-pointer"/>
-                </div>
-                <div className="bg-white rounded-r-2xl h-14 mt-20 ml-3 mr-8">
-                    {/* <UserRound className="ml-32 text-2xl"/> */}
-                    <div className="inline-flex px-2 pt-2 ">
-                        <h4 className="font-montserrat drop-shadow-lg  shadow-black">John Doe</h4>
-                        <img src="/src/assets/person.jpg" alt="person image" className=" ml-8 w-10 h-10 border border-black rounded-full" />
-                    </div>
-                    
-                </div>
-                <div className="mt-24">
-                    <Link to={'/VotingStatistics'} className="text-white ml-8 w-40 pr-4 py-1 hover:bg-gradient-to-r from-black via-customeBlue to-black">Election</Link><br />
-                    <Link to={'/Voters'} className="text-white ml-8 w-40 pr-4 py-1 mt-4 hover:bg-gradient-to-r from-black via-customeBlue to-black">Voters</Link><br />
-                    <Link to={'/Candidates'} className="text-white ml-8 w-40 pr-4 py-1 mt-4 hover:bg-gradient-to-r from-black via-customeBlue to-black">Candidates</Link>
-                </div>
-                <Link to={'/CompanyProfilePage'}>
-                   <Settings className="text-white fixed mt-80"/>
-                </Link>
-                <LogOut className="text-white ml-10 fixed mt-72"/>
-    
-    
-            
+  // Adjust sidebar on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const isSmallScreen = window.innerWidth <= 768;
+      setIsMobile(isSmallScreen);
+      setIsExpanded(!isSmallScreen); // Expand on large screens, collapse on mobile
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <>
+      {/* Floating Toggle Button for Mobile */}
+      {isMobile && (
+        <AlignJustify 
+          onClick={toggleSidebar} 
+          className="text-white text-2xl fixed top-4 left-4 cursor-pointer z-20"
+        />
+      )}
+
+      {/* Sidebar Container */}
+      <div 
+        className={`h-full fixed z-10 bg-black transition-all duration-300 ease-in-out flex flex-col ${
+          isExpanded ? "w-56" : "w-16"
+        }`}
+      >
+        {/* Sidebar Header */}
+        <div className="flex items-center justify-between px-5 mt-10">
+          {isExpanded && <h1 className="text-white text-2xl">Department</h1>}
+          <AlignJustify onClick={toggleSidebar} className="text-white cursor-pointer" />
+        </div>
+
+        {/* User Profile */}
+        {isExpanded && (
+          <div className="bg-white rounded-r-2xl h-14 mt-6 mx-4 flex items-center px-3">
+            <h4 className="font-montserrat text-black">John Doe</h4>
+            <img 
+              src="/src/assets/person.jpg" 
+              alt="Profile" 
+              className="ml-auto w-10 h-10 border border-black rounded-full" 
+            />
+          </div>
+        )}
+
+        {/* Sidebar Navigation */}
+        <nav className="mt-16 flex flex-col items-center space-y-1">
+          {[
+            { name: "Election", path: "/VotingStatistics" },
+            { name: "Voters", path: "/Voters" },
+            { name: "Candidates", path: "/Candidates" },
+          ].map((item, index) => (
+            <div key={index} className="relative w-full flex flex-col items-center group">
+              <Link 
+                to={item.path} 
+                className="text-white text-center w-full py-2 hover:bg-gradient-to-r from-black via-customeBlue to-black transition relative"
+              >
+                {isExpanded ? (
+                  <span className="relative">
+                    {item.name}
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-white transition-opacity duration-300 opacity-0 group-hover:opacity-100"></span>
+                  </span>
+                ) : (
+                  ""
+                )}
+              </Link>
             </div>
-        )
+          ))}
+        </nav>
 
-    }
-    else{
-        return(
-            // <AlignJustify onClick={handleclick} className="text-black text-xl font-bold ml-8 top-16 fixed cursor-pointer"/>
-
-            <div className="h-full w-40 fixed z-10  bg-black border-white transition-transform"> 
-                    {/* Side bar */}
-                    {/* make changes here 'md:w-40 hidden md:block'*/}
-                <div className="inline-flex mt-10 ml-1">
-                    <h1 className="text-white">Department</h1>
-                    <AlignJustify onClick={handleclick} className="text-white ml-1 cursor-pointer"/>
-                </div>
-                
-                <img src="/src/assets/person.jpg" alt="person image" className=" ml-8 w-10 h-10 mt-20 border border-black rounded-full" />
-                
-                <Link to={'/CompanyProfilePage'}>
-                   <Settings className="text-white fixed mt-80"/>
-                </Link>
-                <LogOut className="text-white ml-10 fixed mt-96"/>
-    
-    
-            
-            </div>
-            
-            
-        )
-        
-    }
-    
+        {/* Bottom Section */}
+        <div className="absolute bottom-1 w-full flex flex-col items-center">
+          {/* Settings Icon */}
+          <Link to="/CompanyProfilePage">
+            <Settings className="text-white w-4 h-4 mb-4 cursor-pointer" />
+          </Link>
+          {/* Show underline only when expanded */}
+          {isExpanded && <div className="w-40 h-0.5 bg-white shadow-md"></div>}
+          {/* Logout Button */}
+          <LogOut className="text-white w-4 h-8 mt-4 cursor-pointer" />
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default Sidebar
+export default Sidebar;

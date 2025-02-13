@@ -5,6 +5,7 @@ import Login from './Pages/Login/Login';
 import LoginPage from './Pages/LoginPage';
 import RegisterElectionPage from './Pages/RegisterElectionPage';
 
+
 function App() {
 
 
@@ -15,10 +16,10 @@ function App() {
         </Helmet>
        
         {/* <VoterRegistration/> */}
-        {/* <Login/> */}
+        <Login/> 
 
         {/* <LoginPage/> */}
-        <RegisterElectionPage/>
+        {/* //<RegisterElectionPage/>*/ }
     </div>
  )
 }

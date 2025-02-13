@@ -3,6 +3,7 @@ import { ChevronRight } from "lucide-react"
 import { useState } from "react"
 import { NameContext } from "../../../Context/NameContext";
 import { motion } from "motion/react";
+//import backgroundImage from '../../public/backgroundImage.png';
 import { div } from "motion/react-client";
 import { easeOut } from "motion";
 function RegisterOne(){
