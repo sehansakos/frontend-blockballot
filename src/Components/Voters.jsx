@@ -64,7 +64,7 @@ function Voters() {
                     <div className="flex items-center justify-between mt-4">
                         <button className="text-blue-500 text-sm">+ Add Voters</button>
                         <Link
-                            to="/RegisterCandidatePage"
+                            to="/VoterRegistration"
                             className="bg-black text-white px-6 py-3 rounded-full flex items-center hover:bg-gray-700 transition shadow-md"
                         >
                             Confirm <CircleCheck className="ml-2" />

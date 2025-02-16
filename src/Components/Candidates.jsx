@@ -6,6 +6,7 @@ import CandidateList from "./CandidateList";
 import BottomBar from "./BottomBar";
 import TopBar from "../Components/TopBar";
 
+
 function Candidates() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -35,7 +36,7 @@ function Candidates() {
                 <div className="p-6 md:p-10 h-[calc(100vh-4rem)] overflow-auto">
                     {/* Header */}
                     <div className="flex items-center justify-between mb-5">
-                        <h2 className="text-2xl font-bold flex items-center">
+                        <h2 className="text-2xl font-bold flex items-center ">
                             Candidates <Users className="ml-2 text-gray-600" /> <span className="ml-1 text-gray-600">20</span>
                         </h2>
                     </div>
