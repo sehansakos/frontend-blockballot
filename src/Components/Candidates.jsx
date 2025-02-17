@@ -67,7 +67,7 @@ function Candidates() {
                         <Link
                             to="/RegisterCandidatePage"
                             className="bg-black text-white px-6 py-3 rounded-full flex items-center hover:bg-gray-700 transition shadow-md"
-                        >
+                        >66g6
                             Confirm <CircleCheck className="ml-2" />
                         </Link>
                     </div>
