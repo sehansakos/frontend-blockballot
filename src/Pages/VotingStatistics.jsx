@@ -37,7 +37,7 @@ function VotingStatistics() {
     }, []);
 
     return (
-        <div className="bg-gray-100">
+        <div className="bg-gray-100 font-montserrat">
             {/* Sidebar */}
             <div className={`fixed left-0 top-0 h-full transition-all duration-300 z-50 ${isSidebarExpanded ? "w-100" : "w-0 overflow-hidden"}`}>
                 <Sidebar />

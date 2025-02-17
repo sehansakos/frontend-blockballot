@@ -2,7 +2,7 @@ import { AlignJustify, LogOut, Settings } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function Sidebar() {
+function SideBar() {
   const [isExpanded, setIsExpanded] = useState(window.innerWidth > 768);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -40,14 +40,14 @@ function Sidebar() {
       >
         {/* Sidebar Header */}
         <div className="flex items-center justify-between px-5 mt-10">
-          {isExpanded && <h1 className="text-white text-2xl font-montserrat">Department</h1>}
+          {isExpanded && <h1 className="text-white text-2xl font-montserrat">Company</h1>}
           <AlignJustify onClick={toggleSidebar} className="text-white cursor-pointer" />
         </div>
 
         {/* User Profile */}
         {isExpanded && (
           <div className="bg-white rounded-r-2xl h-14 mt-6 mx-4 flex items-center px-3">
-            <h4 className="font-montserrat text-black">John Doe</h4>
+            <h4 className="font-montserrat text-black ">John Doe</h4>
             <img 
               src="/src/assets/person.jpg" 
               alt="Profile" 
@@ -59,9 +59,9 @@ function Sidebar() {
         {/* Sidebar Navigation */}
         <nav className="mt-16 flex flex-col items-center space-y-1 font-montserrat">
           {[
-            { name: "Election", path: "/VotingStatistics" },
-            { name: "Voters", path: "/Voters" },
-            { name: "Candidates", path: "/Candidates" },
+            { name: "Edit Profile", path: "/CompanyProfilePage" },
+            { name: "System Settings", path: "/Voters" },
+            
           ].map((item, index) => (
             <div key={index} className="relative w-full flex flex-col items-center group">
               <Link 
@@ -97,4 +97,4 @@ function Sidebar() {
   );
 }
 
-export default Sidebar;
+export default SideBar;
