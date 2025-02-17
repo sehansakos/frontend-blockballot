@@ -71,7 +71,7 @@ function SideBar() {
                 {isExpanded ? (
                   <span className="relative">
                     {item.name}
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-white transition-opacity duration-300 opacity-0 group-hover:opacity-100"></span>
+                    <span className="absolute -m-0.3rem bottom-0 left-0 w-full h-0.5 bg-white transition-opacity duration-300 opacity-0 group-hover:opacity-100"></span>
                   </span>
                 ) : (
                   ""

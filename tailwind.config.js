@@ -12,7 +12,8 @@ export default {
         '35.3rem':'35.3rem',
         '40rem':'40rem',
         '45rem':'45rem',
-        '31.5rem':'31.5rem'
+        '31.5rem':'31.5rem',
+        '-0.3rem':'-0.3rem'
       },
 
       width:{
